@@ -133,11 +133,12 @@ EMPLOYEES 테이블에서 phone_number컬럼은 ###.###.####형태로 저장되어 있다
 전화 번호를 출력하도록 쿼리를 작성하세요. (CONCAT, SUBSTR, LENGTH 사용)
 */
 SELECT 
---    CONCAT('(02)', SUBSTR(phone_number, 4,LENGTH(phone_number))) AS 전화번호
     CONCAT('(02)', SUBSTR(phone_number, 4)) AS 전화번호
+--    CONCAT('(02)', SUBSTR(phone_number, 4,LENGTH(phone_number))) AS 전화번호
 FROM 
     employees;
-
+--WHERE
+--    length(phone_number) = 12;
 /*
 문제 3. 
 EMPLOYEES 테이블에서 JOB_ID가 it_prog인 사원의 이름(first_name)과 급여(salary)를 출력하세요.
@@ -154,3 +155,4 @@ FROM
     employees
 WHERE 
     LOWER(job_id) = 'it_prog';
+--    job_id=upper('it_prog');
