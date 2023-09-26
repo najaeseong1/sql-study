@@ -116,7 +116,7 @@ SELECT
 FROM
          employees e
     JOIN departments d ON e.department_id = d.department_id
-    JOIN locations loc ON d.location_id = loc.location_id
+    JOIN locations   loc ON d.location_id = loc.location_id
 WHERE
     e.job_id = 'SA_MAN';    
 /*
@@ -138,17 +138,13 @@ WHERE
 SELECT
     e.employee_id,
     d.*
-FROM
-    departments d
-    LEFT OUTER JOIN employees e 
+FROM departments d LEFT OUTER JOIN employees e 
 ON d.department_id = e.department_id
 WHERE
-    e.employee_id IS NULL;
---    e.department_id IS NULL;
-    
-SELECT * 
-FROM employees e
-WHERE e.department_id IS NULL;
+--    e.employee_id IS NULL;
+    e.department_id IS NULL;
+
+SELECT * FROM employees e WHERE e.department_id IS NULL;
 
 /*
 문제 10. 
@@ -170,7 +166,7 @@ FROM
 --매니저 아이디가 없는 사람은 배제하고 급여는 역순으로 출력하세요
 */
 SELECT
-    e2.employee_id AS 매니저,
+    e2.employee_id                AS 매니저,
     e1.first_name || e1.last_name AS 사원이름,
     e2.first_name || e2.last_name AS 매니저이름,
     e2.salary                     AS 매니저급여
