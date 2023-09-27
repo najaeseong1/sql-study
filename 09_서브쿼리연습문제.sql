@@ -1,10 +1,10 @@
 /*
-ë¬¸ì œ 1.
--EMPLOYEES í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ë“¤ì˜ í‰ê· ê¸‰ì—¬ë³´ë‹¤ ë†’ì€ ì‚¬ì›ë“¤ì˜ ë°ì´í„°ë¥¼ ì¶œë ¥ í•˜ì„¸ìš” 
-(AVG(ì»¬ëŸ¼) ì‚¬ìš©)
--EMPLOYEES í…Œì´ë¸”ì—ì„œ ëª¨ë“  ì‚¬ì›ë“¤ì˜ í‰ê· ê¸‰ì—¬ë³´ë‹¤ ë†’ì€ ì‚¬ì›ë“¤ì˜ ìˆ˜ë¥¼ ì¶œë ¥í•˜ì„¸ìš”
--EMPLOYEES í…Œì´ë¸”ì—ì„œ job_idê°€ IT_PROGì¸ ì‚¬ì›ë“¤ì˜ í‰ê· ê¸‰ì—¬ë³´ë‹¤ ë†’ì€ ì‚¬ì›ë“¤ì˜ 
-ë°ì´í„°ë¥¼ ì¶œë ¥í•˜ì„¸ìš”
+¹®Á¦ 1.
+-EMPLOYEES Å×ÀÌºí¿¡¼­ ¸ðµç »ç¿øµéÀÇ Æò±Õ±Þ¿©º¸´Ù ³ôÀº »ç¿øµéÀÇ µ¥ÀÌÅÍ¸¦ Ãâ·Â ÇÏ¼¼¿ä 
+(AVG(ÄÃ·³) »ç¿ë)
+-EMPLOYEES Å×ÀÌºí¿¡¼­ ¸ðµç »ç¿øµéÀÇ Æò±Õ±Þ¿©º¸´Ù ³ôÀº »ç¿øµéÀÇ ¼ö¸¦ Ãâ·ÂÇÏ¼¼¿ä
+-EMPLOYEES Å×ÀÌºí¿¡¼­ job_id°¡ IT_PROGÀÎ »ç¿øµéÀÇ Æò±Õ±Þ¿©º¸´Ù ³ôÀº »ç¿øµéÀÇ 
+µ¥ÀÌÅÍ¸¦ Ãâ·ÂÇÏ¼¼¿ä
 */
 SELECT
     *
@@ -23,9 +23,9 @@ WHERE job_id = 'IT_PROG'
 AND salary > (SELECT AVG(salary) FROM employees WHERE job_id = 'IT_PROG');
 
 /*
-ë¬¸ì œ 2.
--DEPARTMENTSí…Œì´ë¸”ì—ì„œ manager_idê°€ 100ì¸ ë¶€ì„œì— ì†í•´ìžˆëŠ” ì‚¬ëžŒë“¤ì˜ 
-ëª¨ë“  ì •ë³´ë¥¼ ê²€ìƒ‰í•˜ì„¸ìš”.
+¹®Á¦ 2.
+-DEPARTMENTSÅ×ÀÌºí¿¡¼­ manager_id°¡ 100ÀÎ ºÎ¼­¿¡ ¼ÓÇØÀÖ´Â »ç¶÷µéÀÇ 
+¸ðµç Á¤º¸¸¦ °Ë»öÇÏ¼¼¿ä.
 */
 SELECT
     *
@@ -34,10 +34,10 @@ JOIN employees e
 ON d.department_id = e.department_id
 WHERE d.manager_id = 100;
 /*
-ë¬¸ì œ 3.
--EMPLOYEESí…Œì´ë¸”ì—ì„œ â€œPatâ€ì˜ manager_idë³´ë‹¤ ë†’ì€ manager_idë¥¼ ê°–ëŠ” ëª¨ë“  ì‚¬ì›ì˜ ë°ì´í„°ë¥¼ 
-ì¶œë ¥í•˜ì„¸ìš”
--EMPLOYEESí…Œì´ë¸”ì—ì„œ â€œJamesâ€(2ëª…)ë“¤ì˜ manager_idë¥¼ ê°–ëŠ” ëª¨ë“  ì‚¬ì›ì˜ ë°ì´í„°ë¥¼ ì¶œë ¥í•˜ì„¸ìš”.
+¹®Á¦ 3.
+-EMPLOYEESÅ×ÀÌºí¿¡¼­ ¡°Pat¡±ÀÇ manager_idº¸´Ù ³ôÀº manager_id¸¦ °®´Â ¸ðµç »ç¿øÀÇ µ¥ÀÌÅÍ¸¦ 
+Ãâ·ÂÇÏ¼¼¿ä
+-EMPLOYEESÅ×ÀÌºí¿¡¼­ ¡°James¡±(2¸í)µéÀÇ manager_id¸¦ °®´Â ¸ðµç »ç¿øÀÇ µ¥ÀÌÅÍ¸¦ Ãâ·ÂÇÏ¼¼¿ä.
 */
 SELECT
     *
@@ -48,9 +48,9 @@ SELECT *
 FROM employees 
 WHERE manager_ID IN ( SELECT employee_ID FROM Employees WHERE first_name ='James');
 /*
-ë¬¸ì œ 4.
--EMPLOYEESí…Œì´ë¸” ì—ì„œ first_nameê¸°ì¤€ìœ¼ë¡œ ë‚´ë¦¼ì°¨ìˆœ ì •ë ¬í•˜ê³ , 41~50ë²ˆì§¸ ë°ì´í„°ì˜ 
-í–‰ ë²ˆí˜¸, ì´ë¦„ì„ ì¶œë ¥í•˜ì„¸ìš”
+¹®Á¦ 4.
+-EMPLOYEESÅ×ÀÌºí ¿¡¼­ first_name±âÁØÀ¸·Î ³»¸²Â÷¼ø Á¤·ÄÇÏ°í, 41~50¹øÂ° µ¥ÀÌÅÍÀÇ 
+Çà ¹øÈ£, ÀÌ¸§À» Ãâ·ÂÇÏ¼¼¿ä
 */
 SELECT 
     *
@@ -66,9 +66,9 @@ WHERE rn > 40 AND rn <=51;
 
 
 /*
-ë¬¸ì œ 5.
--EMPLOYEESí…Œì´ë¸”ì—ì„œ hire_dateê¸°ì¤€ìœ¼ë¡œ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬í•˜ê³ , 31~40ë²ˆì§¸ ë°ì´í„°ì˜ 
-í–‰ ë²ˆí˜¸, ì‚¬ì›id, ì´ë¦„, ì „í™”ë²ˆí˜¸, ìž…ì‚¬ì¼ì„ ì¶œë ¥í•˜ì„¸ìš”.
+¹®Á¦ 5.
+-EMPLOYEESÅ×ÀÌºí¿¡¼­ hire_date±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·ÄÇÏ°í, 31~40¹øÂ° µ¥ÀÌÅÍÀÇ 
+Çà ¹øÈ£, »ç¿øid, ÀÌ¸§, ÀüÈ­¹øÈ£, ÀÔ»çÀÏÀ» Ãâ·ÂÇÏ¼¼¿ä.
 */
 
 SELECT 
@@ -78,7 +78,7 @@ FROM
     SELECT 
         ROWNUM AS rn,
     employee_id,
-    first_name || last_name AS ì´ë¦„,
+    first_name || last_name AS ÀÌ¸§,
     phone_number,
     hire_date
     FROM (SELECT * FROM employees
@@ -87,14 +87,14 @@ FROM
 WHERE rn > 30 AND rn <=40;
 
 /*
-ë¬¸ì œ 6.
-employeesí…Œì´ë¸” departmentsí…Œì´ë¸”ì„ left ì¡°ì¸í•˜ì„¸ìš”
-ì¡°ê±´) ì§ì›ì•„ì´ë””, ì´ë¦„(ì„±, ì´ë¦„), ë¶€ì„œì•„ì´ë””, ë¶€ì„œëª… ë§Œ ì¶œë ¥í•©ë‹ˆë‹¤.
-ì¡°ê±´) ì§ì›ì•„ì´ë”” ê¸°ì¤€ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
+¹®Á¦ 6.
+employeesÅ×ÀÌºí departmentsÅ×ÀÌºíÀ» left Á¶ÀÎÇÏ¼¼¿ä
+Á¶°Ç) Á÷¿ø¾ÆÀÌµð, ÀÌ¸§(¼º, ÀÌ¸§), ºÎ¼­¾ÆÀÌµð, ºÎ¼­¸í ¸¸ Ãâ·ÂÇÕ´Ï´Ù.
+Á¶°Ç) Á÷¿ø¾ÆÀÌµð ±âÁØ ¿À¸§Â÷¼ø Á¤·Ä
 */
 SELECT
     e.employee_id,
-    e.first_name || e.last_name AS ì´ë¦„,
+    e.first_name || e.last_name AS ÀÌ¸§,
     d.department_id,
     d.department_name
 FROM employees e
@@ -102,12 +102,12 @@ LEFT JOIN departments d
 ON d.department_id = e.department_id
 ORDER BY e.employee_id ASC;
 /*
-ë¬¸ì œ 7.
-ë¬¸ì œ 6ì˜ ê²°ê³¼ë¥¼ (ìŠ¤ì¹¼ë¼ ì¿¼ë¦¬)ë¡œ ë™ì¼í•˜ê²Œ ì¡°íšŒí•˜ì„¸ìš”
+¹®Á¦ 7.
+¹®Á¦ 6ÀÇ °á°ú¸¦ (½ºÄ®¶ó Äõ¸®)·Î µ¿ÀÏÇÏ°Ô Á¶È¸ÇÏ¼¼¿ä
 */
 SELECT 
     e.employee_id,
-    e.first_name || e.last_name AS ì´ë¦„,
+    e.first_name || e.last_name AS ÀÌ¸§,
     (SELECT department_name FROM departments d WHERE d.department_id = e.department_id
     ) AS department_id,
     (SELECT department_name FROM departments d WHERE d.department_id = e.department_id
@@ -116,11 +116,11 @@ FROM employees e
 ORDER BY e.employee_id ASC;
 
 /*
-ë¬¸ì œ 8.
-departmentsí…Œì´ë¸” locationsí…Œì´ë¸”ì„ left ì¡°ì¸í•˜ì„¸ìš”
-ì¡°ê±´) ë¶€ì„œì•„ì´ë””, ë¶€ì„œì´ë¦„, ë§¤ë‹ˆì €ì•„ì´ë””, ë¡œì¼€ì´ì…˜ì•„ì´ë””, 
-    ìŠ¤íŠ¸ë¦¿_ì–´ë“œë ˆìŠ¤, í¬ìŠ¤íŠ¸ ì½”ë“œ, ì‹œí‹° ë§Œ ì¶œë ¥í•©ë‹ˆë‹¤
-ì¡°ê±´) ë¶€ì„œì•„ì´ë”” ê¸°ì¤€ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
+¹®Á¦ 8.
+departmentsÅ×ÀÌºí locationsÅ×ÀÌºíÀ» left Á¶ÀÎÇÏ¼¼¿ä
+Á¶°Ç) ºÎ¼­¾ÆÀÌµð, ºÎ¼­ÀÌ¸§, ¸Å´ÏÀú¾ÆÀÌµð, ·ÎÄÉÀÌ¼Ç¾ÆÀÌµð, 
+    ½ºÆ®¸´_¾îµå·¹½º, Æ÷½ºÆ® ÄÚµå, ½ÃÆ¼ ¸¸ Ãâ·ÂÇÕ´Ï´Ù
+Á¶°Ç) ºÎ¼­¾ÆÀÌµð ±âÁØ ¿À¸§Â÷¼ø Á¤·Ä
 */
 SELECT 
     d.department_id,
@@ -135,8 +135,8 @@ ON d.location_id = loc.location_id
 ORDER BY d.department_id ASC;
 
 /*
-ë¬¸ì œ 9.
-ë¬¸ì œ 8ì˜ ê²°ê³¼ë¥¼ (ìŠ¤ì¹¼ë¼ ì¿¼ë¦¬)ë¡œ ë™ì¼í•˜ê²Œ ì¡°íšŒí•˜ì„¸ìš”
+¹®Á¦ 9.
+¹®Á¦ 8ÀÇ °á°ú¸¦ (½ºÄ®¶ó Äõ¸®)·Î µ¿ÀÏÇÏ°Ô Á¶È¸ÇÏ¼¼¿ä
 */
 SELECT 
     d.department_id,
@@ -151,10 +151,10 @@ SELECT
 FROM departments d
 ORDER BY d.department_id ASC;
 /*
-ë¬¸ì œ 10.
-locationsí…Œì´ë¸” countries í…Œì´ë¸”ì„ left ì¡°ì¸í•˜ì„¸ìš”
-ì¡°ê±´) ë¡œì¼€ì´ì…˜ì•„ì´ë””, ì£¼ì†Œ, ì‹œí‹°, country_id, country_name ë§Œ ì¶œë ¥í•©ë‹ˆë‹¤
-ì¡°ê±´) country_nameê¸°ì¤€ ì˜¤ë¦„ì°¨ìˆœ ì •ë ¬
+¹®Á¦ 10.
+locationsÅ×ÀÌºí countries Å×ÀÌºíÀ» left Á¶ÀÎÇÏ¼¼¿ä
+Á¶°Ç) ·ÎÄÉÀÌ¼Ç¾ÆÀÌµð, ÁÖ¼Ò, ½ÃÆ¼, country_id, country_name ¸¸ Ãâ·ÂÇÕ´Ï´Ù
+Á¶°Ç) country_name±âÁØ ¿À¸§Â÷¼ø Á¤·Ä
 */
 SELECT 
     loc.location_id,
@@ -167,8 +167,8 @@ LEFT JOIN countries con
 ON loc.country_id = con.country_id
 ORDER BY con.country_name ASC;
 /*
-ë¬¸ì œ 11.
-ë¬¸ì œ 10ì˜ ê²°ê³¼ë¥¼ (ìŠ¤ì¹¼ë¼ ì¿¼ë¦¬)ë¡œ ë™ì¼í•˜ê²Œ ì¡°íšŒí•˜ì„¸ìš”
+¹®Á¦ 11.
+¹®Á¦ 10ÀÇ °á°ú¸¦ (½ºÄ®¶ó Äõ¸®)·Î µ¿ÀÏÇÏ°Ô Á¶È¸ÇÏ¼¼¿ä
 */
 SELECT 
     loc.location_id,
@@ -179,4 +179,123 @@ SELECT
     (SELECT country_name FROM countries con 
     WHERE loc.country_id = con.country_id) AS country_name
 FROM locations loc
-ORDER BY country_name.country_name ASC;
+ORDER BY country_name ASC;
+
+/*
+¹®Á¦ 12. 
+employeesÅ×ÀÌºí, departmentsÅ×ÀÌºíÀ» leftÁ¶ÀÎ hire_date¸¦ ¿À¸§Â÷¼ø ±âÁØÀ¸·Î 
+1-10¹øÂ° µ¥ÀÌÅÍ¸¸ Ãâ·ÂÇÕ´Ï´Ù.
+Á¶°Ç) rownumÀ» Àû¿ëÇÏ¿© ¹øÈ£, Á÷¿ø¾ÆÀÌµð, ÀÌ¸§, ÀüÈ­¹øÈ£, ÀÔ»çÀÏ, 
+ºÎ¼­¾ÆÀÌµð, ºÎ¼­ÀÌ¸§ À» Ãâ·ÂÇÕ´Ï´Ù.
+Á¶°Ç) hire_date¸¦ ±âÁØÀ¸·Î ¿À¸§Â÷¼ø Á¤·Ä µÇ¾î¾ß ÇÕ´Ï´Ù. rownumÀÌ Æ²¾îÁö¸é ¾ÈµË´Ï´Ù.
+*/
+SELECT * FROM employees;
+
+SELECT
+    ROWNUM AS RN,
+    ed.*
+FROM (
+    SELECT 
+        e.employee_id,
+        e.first_name||e.last_name AS ÀÌ¸§,
+        e.phone_number,
+        e.hire_date,
+        d.department_id,
+        d.department_name
+    FROM employees e
+    LEFT JOIN departments d
+    ON e.department_id = d.department_id
+    ORDER BY hire_date ASC
+) ed
+WHERE rownum <= 10;
+/*
+¹®Á¦ 13. 
+--EMPLOYEES ¿Í DEPARTMENTS Å×ÀÌºí¿¡¼­ JOB_ID°¡ SA_MAN »ç¿øÀÇ Á¤º¸ÀÇ LAST_NAME, JOB_ID, 
+DEPARTMENT_ID,DEPARTMENT_NAMEÀ» Ãâ·ÂÇÏ¼¼¿ä.
+*/
+SELECT 
+    e.last_name, 
+    e.job_id, 
+    d.department_id, 
+    d.department_name
+FROM employees e
+JOIN departments d 
+ON d.department_id =e.department_id
+WHERE job_id='SA_MAN';
+
+/*
+¹®Á¦ 14
+--DEPARTMENTÅ×ÀÌºí¿¡¼­ °¢ ºÎ¼­ÀÇ ID, NAME, MANAGER_ID¿Í ºÎ¼­¿¡ ¼ÓÇÑ ÀÎ¿ø¼ö¸¦ Ãâ·ÂÇÏ¼¼¿ä.
+--ÀÎ¿ø¼ö ±âÁØ ³»¸²Â÷¼ø Á¤·ÄÇÏ¼¼¿ä.
+--»ç¶÷ÀÌ ¾ø´Â ºÎ¼­´Â Ãâ·ÂÇÏÁö »ÌÁö ¾Ê½À´Ï´Ù.
+*/
+SELECT * FROM departments;
+SELECT * FROM employees;
+
+SELECT 
+   d.department_id,   
+   d.department_name,
+   d.manager_id,
+   COUNT(e.employee_id) as ÀÎ¿ø¼ö
+FROM departments d  
+JOIN employees e 
+ON d.department_id = e.department_id
+GROUP BY d.department_id, d.department_name ,d.manager_id
+HAVING COUNT(e.employee_id) > 0  
+ORDER BY ÀÎ¿ø¼ö DESC;  
+
+/*
+¹®Á¦ 15
+--ºÎ¼­¿¡ ´ëÇÑ Á¤º¸ ÀüºÎ¿Í, ÁÖ¼Ò, ¿ìÆí¹øÈ£, ºÎ¼­º° Æò±Õ ¿¬ºÀÀ» ±¸ÇØ¼­ Ãâ·ÂÇÏ¼¼¿ä.
+--ºÎ¼­º° Æò±ÕÀÌ ¾øÀ¸¸é 0À¸·Î Ãâ·ÂÇÏ¼¼¿ä.
+*/
+SELECT * FROM employees;
+SELECT * FROM departments;
+SELECT * FROM locations;
+
+SELECT
+    d.*,
+    l.street_address,
+    l.postal_code,
+    NVL(AVG(e.salary),0)
+FROM departments d 
+LEFT JOIN locations l
+ON d.location_id = l.location_id
+LEFT JOIN employees e
+ON d.department_id = e.department_id
+GROUP BY 
+        d.department_id,
+        d.department_name,
+        d.manager_id,
+        d.location_id,
+        l.street_address, 
+        l.postal_code;
+/*
+¹®Á¦ 16
+-¹®Á¦ 15 °á°ú¿¡ ´ëÇØ DEPARTMENT_ID±âÁØÀ¸·Î ³»¸²Â÷¼ø Á¤·ÄÇØ¼­ 
+ROWNUMÀ» ºÙ¿© 1-10 µ¥ÀÌÅÍ ±îÁö¸¸ Ãâ·ÂÇÏ¼¼¿ä.
+*/
+SELECT 
+    ROWNUM,
+    dle.*
+FROM (
+    SELECT
+        d.*,
+        l.street_address,
+        l.postal_code,
+        NVL(AVG(e.salary),0)
+    FROM departments d 
+    LEFT JOIN locations l
+    ON d.location_id = l.location_id
+    LEFT JOIN employees e
+    ON d.department_id = e.department_id
+    GROUP BY 
+            d.department_id,
+            d.department_name,
+            d.manager_id,
+            d.location_id,
+            l.street_address, 
+            l.postal_code
+    ORDER BY d.department_id ASC        
+)dle
+WHERE ROWNUM <= 10;

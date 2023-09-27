@@ -1,18 +1,174 @@
--- MERGE: í…Œì´ë¸” ë³‘í•©
+
+-- MERGE: Å×ÀÌºí º´ÇÕ
 
 /*
-UPDATEì™€ INSERTë¥¼ í•œ ë°©ì— ì²˜ë¦¬.
-í•œ í…Œì´ë¸”ì— í•´ë‹¹í•˜ëŠ” ë°ì´í„°ê°€ ìžˆë‹¤ë©´ UPDATEë¥¼, ì—†ìœ¼ë©´ INSERTë¡œ ì²˜ë¦¬í•´ë¼
-*/
+UPDATE¿Í INSERT¸¦ ÇÑ ¹æ¿¡ Ã³¸®.
 
-CREATE TABLE emps_it AS (SELECT * FROM employees WHERE 1=2);
+ÇÑ Å×ÀÌºí¿¡ ÇØ´çÇÏ´Â µ¥ÀÌÅÍ°¡ ÀÖ´Ù¸é UPDATE¸¦,
+¾øÀ¸¸é INSERT·Î Ã³¸®ÇØ¶ó.
+*/
+CREATE TABLE emps_it AS (SELECT * FROM employees WHERE 1 = 2);
 
 INSERT INTO emps_it
     (employee_id, first_name, last_name, email, hire_date, job_id)
 VALUES
-    (105, 'ì¼ë¡ ','ë¨¸ìŠ¤í¬','ELONMUSK',sysdate,'IT_PROG');
+    (106, 'Ãá½Ä', '±è', 'CHOONSIK', sysdate, 'IT_PROG');
     
 SELECT * FROM emps_it;
 
 SELECT * FROM employees
 WHERE job_id = 'IT_PROG';
+
+
+MERGE INTO emps_it a -- (¸ÓÁö¸¦ ÇÒ Å¸°Ù Å×ÀÌºí)
+    USING -- º´ÇÕ½ÃÅ³ µ¥ÀÌÅÍ
+        (SELECT * FROM employees
+         WHERE job_id = 'IT_PROG') b -- º´ÇÕÇÏ°íÀÚ ÇÏ´Â µ¥ÀÌÅÍ¸¦ ¼­ºêÄõ¸®·Î Ç¥Çö.
+    ON -- º´ÇÕ½ÃÅ³ µ¥ÀÌÅÍÀÇ ¿¬°á Á¶°Ç
+        (a.employee_id = b.employee_id)
+WHEN MATCHED THEN -- Á¶°ÇÀÌ ÀÏÄ¡ÇÏ´Â °æ¿ì¿¡´Â Å¸°Ù Å×ÀÌºí¿¡ ÀÌ·¸°Ô ½ÇÇàÇÏ¶ó.
+    UPDATE SET
+        a.phone_number = b.phone_number,
+        a.hire_date = b.hire_date,
+        a.salary = b.salary,
+        a.commission_pct = b.commission_pct,
+        a.manager_id = b.manager_id,
+        a.department_id = b.department_id
+        
+        /*
+        DELETE¸¸ ´Üµ¶À¸·Î ¾µ ¼ö´Â ¾ø½À´Ï´Ù.
+        UPDATE ÀÌÈÄ¿¡ DELETE ÀÛ¼ºÀÌ °¡´ÉÇÕ´Ï´Ù.
+        UPDATE µÈ ´ë»óÀ» DELETE ÇÏµµ·Ï ¼³°èµÇ¾î ÀÖ±â ¶§¹®¿¡
+        »èÁ¦ÇÒ ´ë»ó ÄÃ·³µéÀ» µ¿ÀÏÇÑ °ªÀ¸·Î ÀÏ´Ü UPDATE¸¦ ÁøÇàÇÏ°í
+        DELETEÀÇ WHEREÀý¿¡ ¾Æ±î ÁöÁ¤ÇÑ µ¿ÀÏÇÑ °ªÀ» ÁöÁ¤ÇØ¼­ »èÁ¦ÇÕ´Ï´Ù.
+        */
+    DELETE
+        WHERE a.employee_id = b.employee_id
+        
+WHEN NOT MATCHED THEN
+    INSERT /*¼Ó¼º(ÄÃ·³)*/ VALUES 
+    (b.employee_id, b.first_name, b.last_name,
+    b.email, b.phone_number, b.hire_date, b.job_id,
+    b.salary, b.commission_pct, b.manager_id, b.department_id);
+    
+
+-------------------------------------------------------------------------------
+
+INSERT INTO emps_it
+    (employee_id, first_name, last_name, email, hire_date, job_id)
+VALUES(102, '·º½º', '¹Ú', 'LEXPARK', '01/04/06', 'AD_VP');
+INSERT INTO emps_it
+    (employee_id, first_name, last_name, email, hire_date, job_id)
+VALUES(101, '´Ï³ª', 'ÃÖ', 'NINA', '20/04/06', 'AD_VP');
+INSERT INTO emps_it
+    (employee_id, first_name, last_name, email, hire_date, job_id)
+VALUES(103, 'Èï¹Î', '¼Õ', 'HMSON', '20/04/06', 'AD_VP');
+
+SELECT * FROM emps_it;
+
+/*
+employees Å×ÀÌºíÀ» ¸Å¹ø ºó¹øÇÏ°Ô ¼öÁ¤µÇ´Â Å×ÀÌºíÀÌ¶ó°í °¡Á¤ÇÏÀÚ.
+±âÁ¸ÀÇ µ¥ÀÌÅÍ´Â email, phone, salary, comm_pct, man_id, dept_idÀ»
+¾÷µ¥ÀÌÆ® ÇÏµµ·Ï Ã³¸®
+»õ·Î À¯ÀÔµÈ µ¥ÀÌÅÍ´Â ±×´ë·Î Ãß°¡.
+*/
+
+MERGE INTO emps_it a
+    USING
+        (SELECT * FROM employees) b
+    ON
+        (a.employee_id = b.employee_id)
+WHEN MATCHED THEN
+    UPDATE SET
+        a.email = b.email,
+        a.phone_number = b.phone_number,
+        a.salary = b.salary,
+        a.commission_pct = b.commission_pct,
+        a.manager_id = b.manager_id,
+        a.department_id = b.department_id
+WHEN NOT MATCHED THEN
+    INSERT VALUES
+    (b.employee_id, b.first_name, b.last_name,
+    b.email, b.phone_number, b.hire_date, b.job_id,
+    b.salary, b.commission_pct, b.manager_id, b.department_id);
+
+SELECT * FROM emps_it
+ORDER BY employee_id ASC;
+
+ROLLBACK;
+
+-------------------------------------------------------------------------------
+
+--DROP TABLE depts;
+SELECT * FROM depts;
+
+-- ¹®Á¦ 1-1
+CREATE TABLE depts AS (SELECT * FROM departments);
+INSERT INTO depts VALUES (280,'°³¹ß','',1800);
+INSERT INTO depts VALUES (290,'È¸°èºÎ','',1800);
+INSERT INTO depts VALUES (300,'ÀçÁ¤',301,1800);
+INSERT INTO depts VALUES (310,'ÀÎ»ç',302,1800);
+INSERT INTO depts VALUES (320,'¿µ¾÷',303,1700);
+-- ¹®Á¦ 2-1
+UPDATE depts SET department_name='IT bank' WHERE department_name='IT Support';
+-- ¹®Á¦ 2-2
+UPDATE depts SET manager_id = 301 WHERE department_id = 290;
+-- ¹®Á¦ 2-3
+UPDATE depts
+SET
+    department_name = 'IT Help',
+    manager_id = 303,
+    location_id = 1800
+WHERE
+    department_name = 'IT Helpdesk';
+-- ¹®Á¦ 2-4 È¸°èºÎ, ÀçÁ¤, ÀÎ»ç, ¿µ¾÷ÀÇ ¸Å´ÏÀú ¾ÆÀÌµð¸¦ 301·Î ÀÏ°ý º¯°æÇÏ¼¼¿ä.
+UPDATE depts SET manager_id = 301 WHERE department_name IN ('È¸°èºÎ','ÀçÁ¤','ÀÎ»ç','¿µ¾÷');
+
+-- ¹®Á¦ 3-1
+DELETE FROM depts WHERE department_id = 320;
+-- ¹®Á¦ 3-2
+DELETE FROM depts WHERE department_id=
+    (SELECT department_id FROM depts WHERE department_name='NOC');
+-- ¹®Á¦ 4-1
+CREATE TABLE deptsss AS (SELECT * FROM depts );
+DELETE FROM deptsss WHERE department_id > 200;
+-- ¹®Á¦ 4-2
+UPDATE deptsss SET manager_id = 100 WHERE manager_id IS NOT NULL;
+ -- ¹®Á¦ 4-3, 4-4
+ MERGE INTO depts td
+    USING (SELECT * FROM departments) d
+    ON (td.department_id = d.department_id)
+WHEN MATCHED THEN
+    UPDATE SET
+        td.department_name = d.department_name,
+        td.manager_id = d.manager_id,
+        td.location_id = d.location_id
+WHEN NOT MATCHED THEN
+    INSERT VALUES
+        (d.department_id,
+        d.department_name,
+        d.manager_id,
+        d.location_id);
+-- ¹®Á¦ 5-1
+CREATE TABLE jobs_it AS (SELECT * FROM jobs WHERE min_salary>6000);
+-- ¹®Á¦ 5-2
+INSERT INTO jobs_it VALUES('IT_DEV','¾ÆÀÌÆ¼°³¹ßÆÀ','6000','20000');
+INSERT INTO jobs_it VALUES('NET_DEV','³×Æ®¿öÅ©°³¹ßÆÀ','5000','20000');
+INSERT INTO jobs_it VALUES('SEC_DEV','º¸¾È°³¹ßÆÀ','6000','19000');
+-- ¹®Á¦ 5-3, 5-4
+MERGE INTO jobs_it tj
+    USING (SELECT * FROM jobs WHERE min_salary > 5000) j
+    ON (tj.job_id = j.job_id)
+WHEN MATCHED THEN
+    UPDATE SET 
+        tj.min_salary = j.min_salary,
+        tj.max_salary = j.max_salary
+WHEN NOT MATCHED THEN
+    INSERT VALUES (j.job_id,j.job_title,j.min_salary,j.max_salary);
+        
+SELECT * FROM depts;
+SELECT * FROM deptsss;
+SELECT * FROM jobs_it;
+SELECT * FROM jobs;
+
+--DROP TABLE jobs_it;
