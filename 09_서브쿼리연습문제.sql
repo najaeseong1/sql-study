@@ -192,7 +192,7 @@ employees테이블, departments테이블을 left조인 hire_date를 오름차순 기준으로
 SELECT * FROM employees;
 
 SELECT
-    ROWNUM AS RN,
+    ROWNUM,
     ed.*
 FROM (
     SELECT 
@@ -220,7 +220,7 @@ SELECT
     d.department_name
 FROM employees e
 JOIN departments d 
-ON d.department_id =e.department_id
+ON d.department_id=e.department_id
 WHERE job_id='SA_MAN';
 
 /*
@@ -241,7 +241,7 @@ FROM departments d
 JOIN employees e 
 ON d.department_id = e.department_id
 GROUP BY d.department_id, d.department_name ,d.manager_id
-HAVING COUNT(e.employee_id) > 0  
+--HAVING COUNT(e.employee_id) > 0
 ORDER BY 인원수 DESC;  
 
 /*
@@ -257,7 +257,7 @@ SELECT
     d.*,
     l.street_address,
     l.postal_code,
-    NVL(AVG(e.salary),0)
+    NVL(TRUNC(AVG(e.salary),0),0) AS 부서별평균급여
 FROM departments d 
 LEFT JOIN locations l
 ON d.location_id = l.location_id
@@ -269,7 +269,8 @@ GROUP BY
         d.manager_id,
         d.location_id,
         l.street_address, 
-        l.postal_code;
+        l.postal_code
+ORDER BY d.department_id;
 /*
 문제 16
 -문제 15 결과에 대해 DEPARTMENT_ID기준으로 내림차순 정렬해서 
