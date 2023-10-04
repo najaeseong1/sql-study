@@ -40,16 +40,20 @@ DECLARE
    v_last_name employees.last_name%type := 'steven';
    v_email employees.email%type := 'stevenjobs';
    v_hire_date employees.hire_date%type := SYSDATE; 
-   v_job_id employees.job_id%type := 'CEO';  
-BEGIN  
-      INSERT INTO 
-        employees (employee_id, last_name, email, hire_date, job_id)
-      VALUES 
-        (v_employee_id ,v_last_name,v_email,v_hire_date,v_job_id);
-      dbms_output.put_line('<사원명>: ' ||v_last_name );
-      dbms_output.put_line('<이메일>: '||v_email );
-      dbms_output.put_line('<입사일자>: '|| v_hire_date);
-      dbms_output.put_line('<JOB_ID>: '|| v_job_id);       
+   v_job_id employees.job_id%TYPE := 'CEO';
+
+BEGIN
+    SELECT MAX(employee_id) INTO v_employee_id FROM employees;
+
+    INSERT INTO emps 
+        (employee_id, last_name, email, hire_date, job_id) 
+    VALUES 
+        ( v_employee_id, v_last_name, v_email, v_hire_date, v_job_id );
+
+    dbms_output.put_line('<사원명>: ' || v_last_name);
+    dbms_output.put_line('<이메일>: ' || v_email);
+    dbms_output.put_line('<입사일자>: ' || v_hire_date);
+    dbms_output.put_line('<JOB_ID>: ' || v_job_id);
 END;
 
 
