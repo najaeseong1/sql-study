@@ -82,16 +82,21 @@ BEGIN
     out_years:=TRUNC(MONTHS_BETWEEN(sysdate,v_hire_date)/12);
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
-        dbms_output.put_line(p_employee_id || '에 해당하는 사원이 없습니다');
+        dbms_output.put_line('ID가 '||p_employee_id || '에 해당하는 사원이 없습니다');
         dbms_output.put_line(out_years);
 END;
 
 DECLARE
 	v_years NUMBER;
 BEGIN	
-	years_of_service(10,v_years);
+	years_of_service(576,v_years);
+    IF v_years IS NULL
+    THEN 
+        RETURN;
+    END IF;
 	DBMS_OUTPUT.PUT_LINE('근속년수: '||v_years||'년');
 END;
+
 /*
 프로시저명 - new_emp_proc
 employees 테이블의 복사 테이블 emps를 생성합니다.
@@ -129,7 +134,7 @@ BEGIN
             e.job_Id = p_job_Id	
 	WHEN NOT MATCHED THEN 
 		INSERT (employee_Id,last_Name,email,hire_Date ,job_Id)
-		VALUES (p_employee_Id,p_last_Name,p_email,p_hire_Date,p_job_Id);
+		VALUES (p_employee_Id,p_last_name,p_email,p_hire_date,p_job_Id);
 	COMMIT;
 EXCEPTION 
 	WHEN OTHERS THEN
@@ -142,7 +147,4 @@ END;
 SELECT * FROM emps;
 DELETE FROM emps WHERE employee_id = 321;
 SELECT * FROm dual;
-EXEC new_emp_proc (321,'업데이트를 위한 테스트','asdasd',sysdate,'asdasdasd');
-
-
-
+EXEC new_emp_proc (322,'asdasdasd','ㅁㄴㅇㅁㄴㅇ',sysdate,'ㅁㄴㅇ');
